@@ -1,69 +1,57 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+* {
+  box-sizing: border-box;
 }
 
 body {
+  font-family: Poppins;
   margin: 0;
   display: flex;
-  place-items: center;
+  background: rgb(67, 97, 125);
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100lvh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+:root {
+  --lightBlue: rgb(211, 227, 245);
+
+  --border-radius: 8px;
+
+  --sm-spacing: 8px;
+  --md-spacing: 16px;
+  --lg-spacing: 32px;
+
+  --sm: 37.5em;
+  --md: 48em;
+  --lg: 64em;
+
+  --box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11),
+    0 4px 4px rgba(0, 0, 0, 0.11), 0 6px 8px rgba(0, 0, 0, 0.11),
+    0 8px 16px rgba(0, 0, 0, 0.11);
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.monthAndYear input {
+  color: var(--lightBlue);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.monthAndYear svg {
+  color: var(--lightBlue);
+}
+
+.monthAndYear label {
+  color: var(--lightBlue);
+}
+
+.monthAndYear {
+  padding-right: 25px;
+}
+
+.table-container {
+  margin: 1rem 0;
+  padding: var(--md-spacing);
+  background: #193f5e;
+  border: 2px solid var(--lightBlue);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
 }
