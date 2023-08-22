@@ -1,7 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
 
-* {
+html {
   box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 
 body {
@@ -15,8 +20,6 @@ body {
 
 :root {
   --lightBlue: rgb(211, 227, 245);
-
-  --border-radius: 8px;
 
   --sm-spacing: 8px;
   --md-spacing: 16px;
@@ -43,15 +46,11 @@ body {
   color: var(--lightBlue);
 }
 
-.monthAndYear {
-  padding-right: 25px;
-}
-
 .table-container {
   margin: 1rem 0;
   padding: var(--md-spacing);
   background: #193f5e;
   border: 2px solid var(--lightBlue);
-  border-radius: var(--border-radius);
+  border-radius: 8px;
   box-shadow: var(--box-shadow);
 }

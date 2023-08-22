@@ -3,8 +3,12 @@ import Box from "@mui/material/Box";
 
 export default function LoadingSpinner() {
   return (
-    <Box sx={{ display: "flex", justifyContent: "center" }}>
-      <CircularProgress />
-    </Box>
+    <tr style={{ height: 375 }}>
+      <td colSpan={6}>
+        <Box>
+          <CircularProgress />
+        </Box>
+      </td>
+    </tr>
   );
 }

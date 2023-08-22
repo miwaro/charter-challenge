@@ -14,10 +14,9 @@ function RewardsTable({ isLoading, data }) {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState(null);
   const [customers, setCustomers] = useState([]);
-
   const debouncedSearchTerm = useDebounce(search, 500);
 
-  const filteredCustomers = useMemo(() => {
+  const customersInSearch = useMemo(() => {
     if (!search) return data;
 
     return data.filter((customer) => {
@@ -28,8 +27,8 @@ function RewardsTable({ isLoading, data }) {
   }, [debouncedSearchTerm, data, search]);
 
   useEffect(() => {
-    setCustomers(filteredCustomers);
-  }, [filteredCustomers]);
+    setCustomers(customersInSearch);
+  }, [customersInSearch]);
 
   const handleSort = (columnId) => {
     if (orderBy === columnId && order === "asc") {
@@ -41,7 +40,7 @@ function RewardsTable({ isLoading, data }) {
   };
 
   useEffect(() => {
-    const sortedData = data.slice().sort((a, b) => {
+    const sortedData = [...data].sort((a, b) => {
       if (orderBy === null) return;
       if (order === "asc") {
         return a[orderBy] > b[orderBy] ? 1 : -1;
@@ -49,45 +48,23 @@ function RewardsTable({ isLoading, data }) {
         return a[orderBy] < b[orderBy] ? 1 : -1;
       }
     });
+
     setCustomers(sortedData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [order, orderBy]);
 
-  const monthsList = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  const getPreviousMonths = () => {
-    if (selectedDate) {
-      const currentDate = dayjs(selectedDate);
-      const previousMonth = currentDate.subtract(1, "month");
-      const twoMonthsAgo = currentDate.subtract(2, "month");
-      return {
-        selectedMonth: currentDate.format("MMMM YYYY"),
-        previousMonth: previousMonth.format("MMMM YYYY"),
-        twoMonthsAgo: twoMonthsAgo.format("MMMM YYYY"),
-      };
-    }
-
+  const getMonthNames = () => {
+    const currentDate = dayjs(selectedDate);
+    const previousMonth = currentDate.subtract(1, "month");
+    const twoMonthsAgo = currentDate.subtract(2, "month");
     return {
-      selectedMonth: "",
-      previousMonth: "",
-      twoMonthsAgo: "",
+      selectedMonth: currentDate.format("MMMM YYYY"),
+      previousMonth: previousMonth.format("MMMM YYYY"),
+      twoMonthsAgo: twoMonthsAgo.format("MMMM YYYY"),
     };
   };
 
-  const { selectedMonth, previousMonth, twoMonthsAgo } = getPreviousMonths();
+  const { selectedMonth, previousMonth, twoMonthsAgo } = getMonthNames();
 
   const columns = [
     { id: "id", label: "ID", sortable: true },
@@ -100,17 +77,16 @@ function RewardsTable({ isLoading, data }) {
 
   const calculatePoints = (amount) => {
     if (amount > 100) {
-      return Number(2 * (amount - 100) + 1 * 50);
-    } else if (amount >= 50 && amount <= 100) {
-      return Number(1 * (amount - 50));
-    } else {
-      return 0;
+      return 2 * (amount - 100) + 50;
+    } else if (amount >= 50) {
+      return amount - 50;
     }
+    return 0;
   };
 
-  const getPoints = (month) => {
-    const [monthName, year] = month.split(" ");
-    const monthIndex = monthsList.indexOf(monthName);
+  const getPoints = (monthAndYear) => {
+    const [monthName, year] = monthAndYear.split(" ");
+    const monthIndex = new Date(`${monthName} 1, 2000`).getMonth();
     const yearAsNumber = parseInt(year);
 
     const filteredCustomers = customers.map((customer) => ({
@@ -161,11 +137,7 @@ function RewardsTable({ isLoading, data }) {
         </thead>
         <tbody>
           {isLoading ? (
-            <tr style={{ height: 375 }}>
-              <td colSpan={6}>
-                <LoadingSpinner />
-              </td>
-            </tr>
+            <LoadingSpinner />
           ) : customers.length > 0 ? (
             customers.map((customer, index) => (
               <tr key={customer.id}>
@@ -182,7 +154,7 @@ function RewardsTable({ isLoading, data }) {
               </tr>
             ))
           ) : (
-            <tr style={{ color: "red", margin: "0 auto" }}>
+            <tr style={{ color: "red" }}>
               <td colSpan={6}>No Results Found</td>
             </tr>
           )}

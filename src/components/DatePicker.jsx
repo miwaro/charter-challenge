@@ -6,6 +6,7 @@ import { DateContext } from "../Contexts/DateContext";
 import dayjs from "dayjs";
 export default function DateSelector() {
   const { selectedDate, setSelectedDate } = useContext(DateContext);
+
   function isBefore2021(date) {
     const targetDate = new Date("2021-01-01T00:00:00");
     return date < targetDate;
@@ -25,7 +26,6 @@ export default function DateSelector() {
         slotProps={{
           textField: {
             size: "small",
-
             classes: {
               root: "monthAndYear",
             },
